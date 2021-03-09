@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Heading,
+  Image,
   Input,
   Select,
   SimpleGrid,
@@ -12,7 +14,6 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import got from 'got'
 import Head from 'next/head'
 import { useState } from 'react'
 import useSWR from 'swr'
@@ -20,15 +21,10 @@ import styles from '../styles/Home.module.css'
 import * as R from 'ramda'
 import { v4 as uuidv4 } from 'uuid'
 
-export default function Home({ playersStats }) {
-  const sortByMostWins = R.sortBy(R.path(['stats', 'wins', 'value']))
-  const sortedByWins = sortByMostWins(playersStats).reverse()
+import { default as allStats } from '../../data/allStats.json'
 
-  const sortByHighestKdRatio = R.sortBy(R.path(['stats', 'kdRatio', 'value']))
-  const sortedByKdRatio = sortByHighestKdRatio(playersStats).reverse()
-
-  const sortByHighestWLRatio = R.sortBy(R.path(['stats', 'wlRatio', 'value']))
-  const sortedByWLRatio = sortByHighestWLRatio(playersStats).reverse()
+export default function Home() {
+  allStats
 
   return (
     <div className={styles.container}>
@@ -57,16 +53,49 @@ export default function Home({ playersStats }) {
       </Head>
 
       <header>
-        <h1 style={{ fontSize: '48px' }}>i8</h1>
+        {/* <h1 style={{ fontSize: '48px' }}>i8</h1> */}
+        <Image src="./i8_black.png" alt="i8" my="4"></Image>
       </header>
 
       <main className={styles.main} style={{ overflow: 'scroll' }}>
+        <Box w="50%" p={4} color="black" shadow="lg" rounded="lg" m={16}>
+          The Team The OG's, The Toxic Players
+        </Box>
+
+        <Box w="50%" p={4} color="black" shadow="lg" rounded="lg" m={16}>
+          <Heading variant="h4">Clan stats</Heading>
+          <Box>
+            Total players: <b>{allStats.totalPlayers}</b>
+          </Box>
+          <Box>
+            Total wins: <b>{allStats.totalWins}</b>
+          </Box>
+          <Box>
+            Total time: <b>{allStats.totalTime}</b>
+          </Box>
+          <Box>
+            Total kills: <b>{allStats.totalKills}</b>
+          </Box>
+          <Box>
+            Total contracts: <b>{allStats.totalContracts}</b>
+          </Box>
+          <Box>
+            Total score: <b>{allStats.totalScore}</b>
+          </Box>
+        </Box>
+
         <Table size="sm" style={{ overflow: 'scroll' }}>
           <Thead>
             <Tr>
               <Th>Name</Th>
-              {Object.entries(playersStats[0].stats).map(([key, value]) => {
-                if (!key.includes('weekly')) {
+              {Object.entries(allStats.players[0]).map(([key, value]) => {
+                console.log('key', key)
+                console.log('value', value)
+                if (
+                  !key.includes('weekly') &&
+                  !key.includes('name') &&
+                  !key.includes('top25')
+                ) {
                   return (
                     <Th key={uuidv4()}>
                       {(key.charAt(0).toUpperCase() + key.slice(1)).replace(
@@ -81,15 +110,17 @@ export default function Home({ playersStats }) {
           </Thead>
 
           <Tbody>
-            {playersStats.map((player) => (
+            {allStats.players.map((player) => (
               <Tr key={uuidv4()}>
                 <Td key={uuidv4()}>{player.name}</Td>
-                {Object.keys(player.stats).map((stat) => {
-                  if (!stat.includes('weekly')) {
+                {Object.keys(player).map((stat) => {
+                  if (
+                    !stat.includes('weekly') &&
+                    !stat.includes('name') &&
+                    !stat.includes('top25')
+                  ) {
                     return (
-                      <Td key={uuidv4()}>
-                        {player.stats[`${stat}`].displayValue}
-                      </Td>
+                      <Td key={uuidv4()}>{player[`${stat}`].displayValue}</Td>
                     )
                   }
                 })}
@@ -113,10 +144,10 @@ export default function Home({ playersStats }) {
               </Thead>
 
               <Tbody>
-                {sortedByWins.map((player) => (
+                {allStats.winnerLeaderboard.map((player) => (
                   <Tr key={uuidv4()}>
                     <Td key={uuidv4()}>{player.name}</Td>
-                    <Td key={uuidv4()}>{player.stats.wins.displayValue}</Td>
+                    <Td key={uuidv4()}>{player.wins.displayValue}</Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -136,10 +167,10 @@ export default function Home({ playersStats }) {
               </Thead>
 
               <Tbody>
-                {sortedByKdRatio.map((player) => (
+                {allStats.killerLeaderboard.map((player) => (
                   <Tr key={uuidv4()}>
                     <Td key={uuidv4()}>{player.name}</Td>
-                    <Td key={uuidv4()}>{player.stats.kdRatio.displayValue}</Td>
+                    <Td key={uuidv4()}>{player.kdRatio.displayValue}</Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -159,10 +190,10 @@ export default function Home({ playersStats }) {
               </Thead>
 
               <Tbody>
-                {sortedByWLRatio.map((player) => (
+                {allStats.winRatioLeaderboard.map((player) => (
                   <Tr key={uuidv4()}>
                     <Td key={uuidv4()}>{player.name}</Td>
-                    <Td key={uuidv4()}>{player.stats.wlRatio.displayValue}</Td>
+                    <Td key={uuidv4()}>{player.wlRatio.displayValue}</Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -171,63 +202,13 @@ export default function Home({ playersStats }) {
         </SimpleGrid>
       </main>
 
-      {/* <pre>{JSON.stringify(playersStats, 0, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(stats, 0, 2)}</pre> */}
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://okasi.me/" target="_blank" rel="noopener noreferrer">
           Powered by Majnoonu Enterprises
         </a>
       </footer>
     </div>
   )
-}
-
-// This gets called on every request
-export async function getServerSideProps() {
-  // Fetch data from Trello
-  const data = await got(`https://trello.com/b/ut3lDK3c/i8.json`).json()
-
-  // Get card names
-  const names = data.cards
-    .map((card) => {
-      if (!card.closed) {
-        return card.name
-      }
-    })
-    .filter(Boolean)
-  // Map through names
-  const playersStatsPromises = names.map(async (name) => {
-    const url = `https://api.tracker.gg/api/v2/warzone/standard/profile/atvi/${encodeURI(
-      name.toLowerCase()
-    ).replace('#', '%23')}`
-
-    try {
-      const data = await got(url).json()
-      return { name, ...data }
-    } catch (error) {
-      console.log('Error: ', url, name, error.response.body)
-    }
-  })
-
-  const playersStatsResolved = await Promise.all(playersStatsPromises)
-
-  const battleRoyaleStats = playersStatsResolved.map(
-    (playerStats) =>
-      playerStats.data.segments.filter(
-        (segment) => segment.attributes.mode == 'br'
-      )[0]
-  )
-
-  names.map((name, index) => {
-    battleRoyaleStats[index] = { name, ...battleRoyaleStats[index] }
-  })
-
-  console.log(battleRoyaleStats)
-
-  // Pass data to the page via props
-  return { props: { playersStats: battleRoyaleStats } }
 }
