@@ -43,21 +43,28 @@ require('dotenv').config()
       ).replace('#', '%23')}`
 
       try {
-        const data = await got(url).json()
-        return { name, ...data }
+        const response = await got(url).json()
+        return { name, ...response }
       } catch (error) {
-        console.log('Player stats error: ', url, name, error.response.body)
+        names = names.filter(item => item !== name)
+        console.log(
+          'Player stats error: ',
+          url,
+          name,
+          error && error.response && error.response.body
+        )
       }
     })
 
-    const playersStatsResolved = await Promise.all(playersStatsPromises)
+    const playersStatsResolved = await (
+      await Promise.all(playersStatsPromises)
+    ).filter(Boolean)
 
-    const battleRoyaleStats = playersStatsResolved.map(
-      (playerStats) =>
-        playerStats.data.segments.filter(
-          (segment) => segment.attributes.mode == 'br'
-        )[0]
-    )
+    const battleRoyaleStats = playersStatsResolved.map((playerStats) => {
+      return playerStats.data.segments.filter(
+        (segment) => segment.attributes.mode == 'br'
+      )[0]
+    })
 
     names.map((name, index) => {
       battleRoyaleStats[index] = { name, ...battleRoyaleStats[index].stats }
@@ -120,7 +127,7 @@ require('dotenv').config()
       lastUpdated: new Date(),
     }
 
-    console.log("allStats", allStats)
+    console.log('allStats', allStats)
 
     return fs.writeFile(
       './data/allStats.json',
@@ -131,7 +138,6 @@ require('dotenv').config()
         }
       }
     )
-
   } catch (error) {
     return console.log('getStats error: ', error)
   }
