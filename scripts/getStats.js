@@ -96,6 +96,8 @@ require('dotenv').config()
       battleRoyaleStats
     ).length
 
+    // https://ramdajs.com/0.9/docs/#foldr
+
     let averageWinRatio = 0
     R.map(
       (player) => (averageWinRatio += player.wlRatio.value),
@@ -103,21 +105,19 @@ require('dotenv').config()
     )
     averageWinRatio = averageWinRatio / totalPlayers
 
-    
-    
     let averageLife = 0
     R.map(
       (player) => (averageLife += player.averageLife.value),
       battleRoyaleStats
-      )
-      averageLife = averageLife / totalPlayers / 60
+    )
+    averageLife = averageLife / totalPlayers / 60
 
-      let averageKdRatio = 0
-      R.map(
-        (player) => (averageKdRatio += player.kdRatio.value),
-        battleRoyaleStats
-      )
-      averageKdRatio = averageKdRatio / totalPlayers
+    let averageKdRatio = 0
+    R.map(
+      (player) => (averageKdRatio += player.kdRatio.value),
+      battleRoyaleStats
+    )
+    averageKdRatio = averageKdRatio / totalPlayers
 
     // let totalWins = 0
     // R.map((player) => (totalWins += player.wins.value), battleRoyaleStats)
