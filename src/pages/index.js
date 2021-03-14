@@ -1,11 +1,14 @@
 import {
   Box,
   Button,
+  Container,
+  Flex,
   Heading,
-  Image,
   Input,
+  Portal,
   Select,
   SimpleGrid,
+  Spacer,
   Table,
   Tbody,
   Td,
@@ -15,19 +18,23 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import useSWR from 'swr'
-import styles from '../styles/Home.module.css'
 import * as R from 'ramda'
 import { v4 as uuidv4 } from 'uuid'
+import Image from 'next/image'
 
 import { default as allStats } from '../../data/allStats.json'
+import Players from '../components/players'
+import KillRatio from '../components/KillRatio'
+import TimeAlive from '../components/TimeAlive'
+import WinRatio from '../components/WinRatio'
 
 export default function Home() {
-  allStats
+  const ref = useRef()
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>i8</title>
         <link
@@ -53,161 +60,105 @@ export default function Home() {
       </Head>
 
       <header>
-        {/* <h1 style={{ fontSize: '48px' }}>i8</h1> */}
-        <Image src="./i8_black.png" alt="i8" my="4"></Image>
+        <Container maxW="xl" centerContent color="black">
+          <Box m={4}>
+            <Image src="/i8_black.png" alt="i8" width={128} height={128} />
+          </Box>
+        </Container>
       </header>
 
-      <main className={styles.main} style={{ overflow: 'scroll' }}>
-        <Box w="50%" p={4} color="black" shadow="lg" rounded="lg" m={16}>
-          The Team The OG's, The Toxic Players
-        </Box>
+      <main>
+        <section role="hero">
+          <Container maxW="xl" centerContent color="black">
+            <Box textAlign="center">
+              <Heading variant="h1">i8 Clan</Heading>
+              <Heading variant="h2">Pure Toxic Gamers</Heading>
+            </Box>
+          </Container>
+        </section>
+        <article>
+          <section role="summary">
+            <Box
+              w="256px"
+              p={4}
+              mt={6}
+              mb={8}
+              mx="auto"
+              rounded="lg"
+              shadow="xl"
+              background="#D9D9D6"
+            >
+              <Heading variant="h3" size="lg" textAlign="center">
+                Clan stats
+              </Heading>
+              <Flex mt={2}>
+                <Text>Players:</Text>
+                <Spacer />
+                <Text fontWeight="bold">{allStats.totalPlayers}</Text>
+              </Flex>
+              <Flex mt={2}>
+                <Text>W/L ratio:</Text>
+                <Spacer />
+                <Text fontWeight="bold">
+                  {Math.round(allStats.averageWinRatio * 100) / 100}%
+                </Text>
+              </Flex>
+              <Flex mt={2}>
+                <Text>Time alive:</Text>
+                <Spacer />
+                <Text fontWeight="bold">
+                  {Math.round(allStats.averageLife * 100) / 100} min
+                </Text>
+              </Flex>
+              <Flex mt={2}>
+                <Text>K/D ratio:</Text>
+                <Spacer />
+                <Text fontWeight="bold">
+                  {Math.round(allStats.averageKdRatio * 100) / 100}
+                </Text>
+              </Flex>
+            </Box>
+          </section>
 
-        <Box w="50%" p={4} color="black" shadow="lg" rounded="lg" m={16}>
-          <Heading variant="h4">Clan stats</Heading>
-          <Box>
-            Total players: <b>{allStats.totalPlayers}</b>
-          </Box>
-          <Box>
-            Total wins: <b>{allStats.totalWins}</b>
-          </Box>
-          <Box>
-            Total time: <b>{allStats.totalTime}</b>
-          </Box>
-          <Box>
-            Total kills: <b>{allStats.totalKills}</b>
-          </Box>
-          <Box>
-            Total contracts: <b>{allStats.totalContracts}</b>
-          </Box>
-          <Box>
-            Total score: <b>{allStats.totalScore}</b>
-          </Box>
-        </Box>
+          <section role="all player stats">
+            <Box mx={8}>
+              <Heading as="h3" size="lg" fontWeight="bold">
+                All players
+              </Heading>
+              <Players></Players>
+            </Box>
+          </section>
 
-        <Table size="sm" style={{ overflow: 'scroll' }}>
-          <Thead>
-            <Tr>
-              <Th>Name</Th>
-              {Object.entries(allStats.players[0]).map(([key, value]) => {
-                console.log('key', key)
-                console.log('value', value)
-                if (
-                  !key.includes('weekly') &&
-                  !key.includes('name') &&
-                  !key.includes('top25')
-                ) {
-                  return (
-                    <Th key={uuidv4()}>
-                      {(key.charAt(0).toUpperCase() + key.slice(1)).replace(
-                        /([A-Z])/g,
-                        ' $1'
-                      )}
-                    </Th>
-                  )
-                }
-              })}
-            </Tr>
-          </Thead>
+          <section role="leaderboards">
+            <SimpleGrid columns={3} spacing={8} my={8} mx={8}>
+              <Box>
+                <Heading as="h3" size="lg" fontWeight="bold">
+                  Wolf (Win ratio)
+                </Heading>
+                <WinRatio></WinRatio>
+              </Box>
 
-          <Tbody>
-            {allStats.players.map((player) => (
-              <Tr key={uuidv4()}>
-                <Td key={uuidv4()}>{player.name}</Td>
-                {Object.keys(player).map((stat) => {
-                  if (
-                    !stat.includes('weekly') &&
-                    !stat.includes('name') &&
-                    !stat.includes('top25')
-                  ) {
-                    return (
-                      <Td key={uuidv4()}>{player[`${stat}`].displayValue}</Td>
-                    )
-                  }
-                })}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
+              <Box>
+                <Heading as="h3" size="lg" fontWeight="bold">
+                  Tortoise (Time alive)
+                </Heading>
+                <TimeAlive></TimeAlive>
+              </Box>
 
-        <SimpleGrid columns={3} spacing={8}>
-          <Box p={4} color="black">
-            <Text fontSize="lg" fontWeight="bold">
-              THE WINNER BOARD
-            </Text>
-
-            <Table size="sm" style={{ overflow: 'scroll' }}>
-              <Thead>
-                <Tr>
-                  <Th>Name</Th>
-                  <Th>Total Wins</Th>
-                </Tr>
-              </Thead>
-
-              <Tbody>
-                {allStats.winnerLeaderboard.map((player) => (
-                  <Tr key={uuidv4()}>
-                    <Td key={uuidv4()}>{player.name}</Td>
-                    <Td key={uuidv4()}>{player.wins.displayValue}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Box>
-
-          <Box p={4} color="black">
-            <Text fontSize="lg" fontWeight="bold">
-              THE KILLER BOARD
-            </Text>
-            <Table size="sm" style={{ overflow: 'scroll' }}>
-              <Thead>
-                <Tr>
-                  <Th>Name</Th>
-                  <Th>Kill / Death Ratio</Th>
-                </Tr>
-              </Thead>
-
-              <Tbody>
-                {allStats.killerLeaderboard.map((player) => (
-                  <Tr key={uuidv4()}>
-                    <Td key={uuidv4()}>{player.name}</Td>
-                    <Td key={uuidv4()}>{player.kdRatio.displayValue}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Box>
-
-          <Box p={4} color="black">
-            <Text fontSize="lg" fontWeight="bold">
-              THE GROUND COMMANDER
-            </Text>
-            <Table size="sm" style={{ overflow: 'scroll' }}>
-              <Thead>
-                <Tr>
-                  <Th>Name</Th>
-                  <Th>Win / Loss Ratio</Th>
-                </Tr>
-              </Thead>
-
-              <Tbody>
-                {allStats.winRatioLeaderboard.map((player) => (
-                  <Tr key={uuidv4()}>
-                    <Td key={uuidv4()}>{player.name}</Td>
-                    <Td key={uuidv4()}>{player.wlRatio.displayValue}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Box>
-        </SimpleGrid>
+              <Box>
+                <Heading as="h3" size="lg" fontWeight="bold">
+                  Lion (Kill ratio)
+                </Heading>
+                <KillRatio></KillRatio>
+              </Box>
+            </SimpleGrid>
+          </section>
+        </article>
       </main>
-
-      {/* <pre>{JSON.stringify(stats, 0, 2)}</pre> */}
-
-      <footer className={styles.footer}>
-        <a href="https://okasi.me/" target="_blank" rel="noopener noreferrer">
-          Powered by Majnoonu Enterprises
-        </a>
+      <footer>
+        <Container maxW="xl" centerContent color="black">
+          <i>Last updated: {new Date(allStats.lastUpdated).toLocaleString()}</i>
+        </Container>
       </footer>
     </div>
   )

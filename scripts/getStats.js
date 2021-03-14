@@ -46,7 +46,7 @@ require('dotenv').config()
         const response = await got(url).json()
         return { name, ...response }
       } catch (error) {
-        names = names.filter(item => item !== name)
+        names = names.filter((item) => item !== name)
         console.log(
           'Player stats error: ',
           url,
@@ -70,12 +70,12 @@ require('dotenv').config()
       battleRoyaleStats[index] = { name, ...battleRoyaleStats[index].stats }
     })
 
-    const allWins = R.map(
-      (player) => R.pick(['name', 'wins'], player),
+    const allAveageLife = R.map(
+      (player) => R.pick(['name', 'averageLife'], player),
       battleRoyaleStats
     )
-    const sortByMostWins = R.sortBy(R.path(['wins', 'value']))
-    const sortedByWins = sortByMostWins(allWins).reverse()
+    const sortByAverageLife = R.sortBy(R.path(['averageLife', 'value']))
+    const sortedByAverageLife = sortByAverageLife(allAveageLife).reverse()
 
     const allKdRatio = R.map(
       (player) => R.pick(['name', 'kdRatio'], player),
@@ -91,39 +91,65 @@ require('dotenv').config()
     const sortByHighestWLRatio = R.sortBy(R.path(['wlRatio', 'value']))
     const sortedByWLRatio = sortByHighestWLRatio(allWlRatio).reverse()
 
-    let totalWins = 0
-    R.map((player) => (totalWins += player.wins.value), battleRoyaleStats)
+    const totalPlayers = R.map(
+      (player) => R.pick(['name'], player),
+      battleRoyaleStats
+    ).length
 
-    let totalTime = 0
-    R.map((player) => (totalTime += player.timePlayed.value), battleRoyaleStats)
-    totalTime = totalTime / 60 / 60
-
-    let totalKills = 0
-    R.map((player) => (totalKills += player.kills.value), battleRoyaleStats)
-
-    let totalContracts = 0
+    let averageWinRatio = 0
     R.map(
-      (player) => (totalContracts += player.contracts.value),
+      (player) => (averageWinRatio += player.wlRatio.value),
       battleRoyaleStats
     )
+    averageWinRatio = averageWinRatio / totalPlayers
 
-    let totalScore = 0
-    R.map((player) => (totalScore += player.score.value), battleRoyaleStats)
+    
+    
+    let averageLife = 0
+    R.map(
+      (player) => (averageLife += player.averageLife.value),
+      battleRoyaleStats
+      )
+      averageLife = averageLife / totalPlayers / 60
+
+      let averageKdRatio = 0
+      R.map(
+        (player) => (averageKdRatio += player.kdRatio.value),
+        battleRoyaleStats
+      )
+      averageKdRatio = averageKdRatio / totalPlayers
+
+    // let totalWins = 0
+    // R.map((player) => (totalWins += player.wins.value), battleRoyaleStats)
+
+    // let totalTime = 0
+    // R.map((player) => (totalTime += player.timePlayed.value), battleRoyaleStats)
+    // totalTime = totalTime / 60 / 60
+
+    // let totalKills = 0
+    // R.map((player) => (totalKills += player.kills.value), battleRoyaleStats)
+
+    // let totalContracts = 0
+    // R.map(
+    //   (player) => (totalContracts += player.contracts.value),
+    //   battleRoyaleStats
+    // )
+
+    // let totalScore = 0
+    // R.map((player) => (totalScore += player.score.value), battleRoyaleStats)
 
     const allStats = {
-      players: battleRoyaleStats,
-      totalPlayers: R.map(
-        (player) => R.pick(['name'], player),
+      players: R.sortBy(
+        R.path(['gamesPlayed', 'value']),
         battleRoyaleStats
-      ).length,
-      totalWins,
-      totalTime: Math.round(totalTime) + ' hours',
-      totalKills,
-      totalContracts,
-      totalScore,
-      winnerLeaderboard: sortedByWins,
-      killerLeaderboard: sortedByKdRatio,
-      winRatioLeaderboard: sortedByWLRatio,
+      ).reverse(),
+      totalPlayers,
+      averageWinRatio,
+      averageLife,
+      averageKdRatio,
+      wlRatioLeaderboard: sortedByWLRatio,
+      averageLifeLeaderboard: sortedByAverageLife,
+      kdRatioLeaderboard: sortedByKdRatio,
       lastUpdated: new Date(),
     }
 
