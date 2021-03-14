@@ -25,7 +25,7 @@ import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
 
 import { default as allStats } from '../../data/allStats.json'
-import Players from '../components/players'
+import Players from '../components/Players'
 import KillRatio from '../components/KillRatio'
 import TimeAlive from '../components/TimeAlive'
 import WinRatio from '../components/WinRatio'
