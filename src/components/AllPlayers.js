@@ -10,7 +10,7 @@ import {
 import { default as allStats } from '../../data/allStats.json'
 import createRows from '../utils/createRows'
 
-export default function Players() {
+export default function AllPlayers() {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
     { id: 'kills', label: 'Kills', minWidth: 80 },

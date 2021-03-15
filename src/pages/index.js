@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Container,
   Flex,
   Heading,
@@ -23,47 +24,37 @@ import useSWR from 'swr'
 import * as R from 'ramda'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { default as allStats } from '../../data/allStats.json'
-import Players from '../components/Players'
+import AllPlayers from '../components/AllPlayers'
 import KillRatio from '../components/KillRatio'
 import TimeAlive from '../components/TimeAlive'
 import WinRatio from '../components/WinRatio'
+import UserIcon from '../components/icons/UserIcon'
+import TrophyIcon from '../components/icons/TrophyIcon'
+import TimeIcon from '../components/icons/TimeIcon'
+import AimIcon from '../components/icons/AimIcon'
+import PeopleIcon from '../components/icons/PeopleIcon'
+import LeaderBoardIcon from '../components/icons/LeaderboardIcon'
+import DonateIcon from '../components/icons/DonateIcon'
 
 export default function Home() {
   const ref = useRef()
 
   return (
-    <div>
+    <>
       <Head>
-        <title>i8</title>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
+        <title>i8 - Home</title>
       </Head>
 
       <header>
         <Container maxW="xl" centerContent color="black">
-          <Box m={4}>
-            <Image src="/i8_black.png" alt="i8" width={128} height={128} />
-          </Box>
+          <Link href="/">
+            <Box m={4} _hover={{cursor: "pointer"}}>
+              <Image src="/i8_black.png" alt="i8" width={128} height={128} />
+            </Box>
+          </Link>
         </Container>
       </header>
 
@@ -92,26 +83,30 @@ export default function Home() {
                 Clan stats
               </Heading>
               <Flex mt={2}>
-                <Text>Players:</Text>
+                <UserIcon height={24} width={24}></UserIcon>
+                <Text ml={2}>Players:</Text>
                 <Spacer />
                 <Text fontWeight="bold">{allStats.totalPlayers}</Text>
               </Flex>
               <Flex mt={2}>
-                <Text>W/L ratio:</Text>
+                <TrophyIcon height={24} width={24}></TrophyIcon>
+                <Text ml={2}>W/L ratio:</Text>
                 <Spacer />
                 <Text fontWeight="bold">
                   {Math.round(allStats.averageWinRatio * 100) / 100}%
                 </Text>
               </Flex>
               <Flex mt={2}>
-                <Text>Time alive:</Text>
+                <TimeIcon height={24} width={24}></TimeIcon>
+                <Text ml={2}>Time alive:</Text>
                 <Spacer />
                 <Text fontWeight="bold">
                   {Math.round(allStats.averageLife * 100) / 100} min
                 </Text>
               </Flex>
               <Flex mt={2}>
-                <Text>K/D ratio:</Text>
+                <AimIcon height={24} width={24}></AimIcon>
+                <Text ml={2}>K/D ratio:</Text>
                 <Spacer />
                 <Text fontWeight="bold">
                   {Math.round(allStats.averageKdRatio * 100) / 100}
@@ -120,38 +115,50 @@ export default function Home() {
             </Box>
           </section>
 
-          <section role="all player stats">
-            <Box mx={8}>
-              <Heading as="h3" size="lg" fontWeight="bold">
-                All players
-              </Heading>
-              <Players></Players>
-            </Box>
-          </section>
+          <section role="navigation">
+            <Center>
+              <SimpleGrid
+                columns={{ sm: 1, lg: 3 }}
+                spacing={4}
+                my={4}
+                mx={4}
+                maxW="640px"
+                color="white"
+              >
+                <Link href="/players">
+                  <Button
+                    backgroundColor="#BE7F00"
+                    _hover={{ opacity: "0.6" }}
+                    size="lg"
+                    leftIcon={<PeopleIcon />}
+                  >
+                    All players
+                  </Button>
+                </Link>
 
-          <section role="leaderboards">
-            <SimpleGrid columns={3} spacing={8} my={8} mx={8}>
-              <Box>
-                <Heading as="h3" size="lg" fontWeight="bold">
-                  Wolf (Win ratio)
-                </Heading>
-                <WinRatio></WinRatio>
-              </Box>
+                <Link href="/leaderboards">
+                  <Button
+                    backgroundColor="#BE7F00"
+                    _hover={{ opacity: "0.6" }}
+                    size="lg"
+                    leftIcon={<LeaderBoardIcon />}
+                  >
+                    Leaderboards
+                  </Button>
+                </Link>
 
-              <Box>
-                <Heading as="h3" size="lg" fontWeight="bold">
-                  Tortoise (Time alive)
-                </Heading>
-                <TimeAlive></TimeAlive>
-              </Box>
-
-              <Box>
-                <Heading as="h3" size="lg" fontWeight="bold">
-                  Lion (Kill ratio)
-                </Heading>
-                <KillRatio></KillRatio>
-              </Box>
-            </SimpleGrid>
+                <Link href="/donate">
+                  <Button
+                    backgroundColor="#BE7F00"
+                    _hover={{ opacity: "0.6" }}
+                    size="lg"
+                    leftIcon={<DonateIcon />}
+                  >
+                    Donate
+                  </Button>
+                </Link>
+              </SimpleGrid>
+            </Center>
           </section>
         </article>
       </main>
@@ -160,6 +167,6 @@ export default function Home() {
           <i>Last updated: {new Date(allStats.lastUpdated).toLocaleString()}</i>
         </Container>
       </footer>
-    </div>
+    </>
   )
 }
