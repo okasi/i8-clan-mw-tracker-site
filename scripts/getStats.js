@@ -91,6 +91,13 @@ require('dotenv').config()
     const sortByHighestWLRatio = R.sortBy(R.path(['wlRatio', 'value']))
     const sortedByWLRatio = sortByHighestWLRatio(allWlRatio).reverse()
 
+    const allWins = R.map(
+      (player) => R.pick(['name', 'wins'], player),
+      battleRoyaleStats
+    )
+    const sortByMostWins = R.sortBy(R.path(['wins', 'value']))
+    const sortedByWins = sortByMostWins(allWins).reverse()
+
     const totalPlayers = R.map(
       (player) => R.pick(['name'], player),
       battleRoyaleStats
@@ -119,8 +126,8 @@ require('dotenv').config()
     )
     averageKdRatio = averageKdRatio / totalPlayers
 
-    // let totalWins = 0
-    // R.map((player) => (totalWins += player.wins.value), battleRoyaleStats)
+    let totalWins = 0
+    R.map((player) => (totalWins += player.wins.value), battleRoyaleStats)
 
     // let totalTime = 0
     // R.map((player) => (totalTime += player.timePlayed.value), battleRoyaleStats)
@@ -147,9 +154,11 @@ require('dotenv').config()
       averageWinRatio,
       averageLife,
       averageKdRatio,
+      totalWins,
       wlRatioLeaderboard: sortedByWLRatio,
       averageLifeLeaderboard: sortedByAverageLife,
       kdRatioLeaderboard: sortedByKdRatio,
+      winsLeaderboard: sortedByWins,
       lastUpdated: new Date(),
     }
 

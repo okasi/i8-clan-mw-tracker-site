@@ -8,7 +8,17 @@ import KillRatio from '../components/KillRatio'
 import WolfIcon from '../components/icons/WolfIcon'
 import TurtleIcon from '../components/icons/TurtleIcon'
 import LionIcon from '../components/icons/LionIcon'
-import { Container, Flex, Box, Heading, SimpleGrid } from '@chakra-ui/layout'
+import {
+  Container,
+  Flex,
+  Box,
+  Heading,
+  SimpleGrid,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/layout'
+import TotalWins from '../components/TotalWins'
+import ChickenIcon from '../components/icons/ChickenIcon'
 
 export default function Leaderboard() {
   return (
@@ -20,8 +30,8 @@ export default function Leaderboard() {
       <header>
         <Container maxW="xl" centerContent color="black">
           <Link href="/">
-            <Box my={4} _hover={{cursor: "pointer"}}>
-              <Image src="/i8_black.png" alt="i8" width={128} height={128}/>
+            <Box my={4} _hover={{ cursor: 'pointer' }}>
+              <Image src="/i8_black.png" alt="i8" width={128} height={128} />
             </Box>
           </Link>
         </Container>
@@ -37,37 +47,57 @@ export default function Leaderboard() {
       </section>
 
       <section role="leaderboards">
-        <SimpleGrid columns={{ sm: 1, xl: 3 }} spacing={8} my={8} mx={8}>
-          <Box>
-            <Flex align="center">
-              <WolfIcon></WolfIcon>
-              <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                Win ratio
-              </Heading>
-            </Flex>
-            <WinRatio></WinRatio>
-          </Box>
+        {/* <SimpleGrid columns={{ sm: 1, xl: 3 }} spacing={8} my={8} mx={8}> */}
+        <Wrap spacing={16} my={8} justify="center">
+          <WrapItem>
+            <Box>
+              <Flex align="center">
+                <WolfIcon></WolfIcon>
+                <Heading as="h3" size="lg" fontWeight="bold" ml="4">
+                  Win ratio
+                </Heading>
+              </Flex>
+              <WinRatio></WinRatio>
+            </Box>
+          </WrapItem>
 
-          <Box>
-            <Flex align="center">
-              <TurtleIcon></TurtleIcon>
-              <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                Time alive
-              </Heading>
-            </Flex>
-            <TimeAlive></TimeAlive>
-          </Box>
+          <WrapItem>
+            <Box>
+              <Flex align="center">
+                <TurtleIcon></TurtleIcon>
+                <Heading as="h3" size="lg" fontWeight="bold" ml="4">
+                  Time alive
+                </Heading>
+              </Flex>
+              <TimeAlive></TimeAlive>
+            </Box>
+          </WrapItem>
 
-          <Box>
-            <Flex align="center">
-              <LionIcon></LionIcon>
-              <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                Kill ratio
-              </Heading>
-            </Flex>
-            <KillRatio></KillRatio>
-          </Box>
-        </SimpleGrid>
+          <WrapItem>
+            <Box>
+              <Flex align="center">
+                <LionIcon></LionIcon>
+                <Heading as="h3" size="lg" fontWeight="bold" ml="4">
+                  Kill ratio
+                </Heading>
+              </Flex>
+              <KillRatio></KillRatio>
+            </Box>
+          </WrapItem>
+
+          <WrapItem>
+            <Box>
+              <Flex align="center">
+                <ChickenIcon></ChickenIcon>
+                <Heading as="h3" size="lg" fontWeight="bold" ml="4">
+                  Total wins
+                </Heading>
+              </Flex>
+              <TotalWins></TotalWins>
+            </Box>
+          </WrapItem>
+        </Wrap>
+        {/* </SimpleGrid> */}
       </section>
     </>
   )

@@ -38,6 +38,7 @@ import AimIcon from '../components/icons/AimIcon'
 import PeopleIcon from '../components/icons/PeopleIcon'
 import LeaderBoardIcon from '../components/icons/LeaderboardIcon'
 import DonateIcon from '../components/icons/DonateIcon'
+import ChickenIcon from '../components/icons/ChickenIcon'
 
 export default function Home() {
   const ref = useRef()
@@ -110,6 +111,14 @@ export default function Home() {
                 <Spacer />
                 <Text fontWeight="bold">
                   {Math.round(allStats.averageKdRatio * 100) / 100}
+                </Text>
+              </Flex>
+              <Flex mt={2}>
+                <ChickenIcon height={24} width={24}></ChickenIcon>
+                <Text ml={2}>Wins:</Text>
+                <Spacer />
+                <Text fontWeight="bold">
+                  {allStats.totalWins}
                 </Text>
               </Flex>
             </Box>
