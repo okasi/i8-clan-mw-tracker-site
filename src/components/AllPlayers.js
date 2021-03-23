@@ -13,21 +13,21 @@ import createRows from '../utils/createRows'
 export default function AllPlayers() {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
+    { id: 'kdRatio', label: 'K/D Ratio', minWidth: 80 },
     { id: 'kills', label: 'Kills', minWidth: 80 },
     { id: 'deaths', label: 'Deaths', minWidth: 80 },
-    { id: 'downs', label: 'Deaths', minWidth: 80 },
-    { id: 'kdRatio', label: 'K/D Ratio', minWidth: 80 },
+    { id: 'downs', label: 'Downs', minWidth: 80 },
+    { id: 'averageLife', label: 'Average Life', minWidth: 80 },
+    { id: 'wlRatio', label: 'W/L Ratio', minWidth: 80 },
     { id: 'wins', label: 'Wins', minWidth: 80 },
     { id: 'top5', label: 'Top 5', minWidth: 80 },
     { id: 'top10', label: 'Top 10', minWidth: 80 },
-    { id: 'gamesPlayed', label: 'Games Played', minWidth: 80 },
-    { id: 'timePlayed', label: 'Time Played', minWidth: 80 },
-    { id: 'wlRatio', label: 'W/L Ratio', minWidth: 80 },
-    { id: 'score', label: 'Score', minWidth: 80 },
+    { id: 'contracts', label: 'Contracts', minWidth: 80 },
     { id: 'scorePerMinute', label: 'Score Per Minute', minWidth: 80 },
     { id: 'scorePerGame', label: 'Score Per Game', minWidth: 80 },
-    { id: 'contracts', label: 'Contracts', minWidth: 80 },
-    { id: 'averageLife', label: 'Average Life', minWidth: 80 },
+    { id: 'score', label: 'Score', minWidth: 80 },
+    { id: 'timePlayed', label: 'Time Played', minWidth: 80 },
+    { id: 'gamesPlayed', label: 'Games Played', minWidth: 80 },
   ]
 
   const rows = createRows(allStats.players, columns)
