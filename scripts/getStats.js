@@ -24,33 +24,42 @@ require('dotenv').config()
     Airtable.configure({ apiKey: process.env.AIRTABLE_ACCESS_TOKEN })
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID)
 
-    let names = []
+    let players = []
 
+    console.log('Fetching Airtable Data ...')
     await base('Table 1')
       .select({
         view: 'Grid view',
-        fields: ['Name'],
+        fields: ['Name', 'Platform', 'Country', 'Play Style'],
       })
       .all()
       .then((records) => {
-        records.map((record) => names.push(record.fields['Name']))
+        records.map((record) => {
+          players.push({
+            name: record.fields['Name'],
+            platform: record.fields['Platform'],
+            country: record.fields['Country'],
+            playStyle: record.fields['Play Style'],
+          })
+        })
       })
 
     // Map through names
-    const playersStatsPromises = names.map(async (name) => {
+    console.log('Fetching Tracker.gg Data ...')
+    const playersStatsPromises = players.map(async (player) => {
       const url = `https://api.tracker.gg/api/v2/warzone/standard/profile/atvi/${encodeURI(
-        name.toLowerCase()
+        player.name.toLowerCase()
       ).replace('#', '%23')}`
 
       try {
         const response = await got(url).json()
-        return { name, ...response }
+        return { ...player, ...response }
       } catch (error) {
-        names = names.filter((item) => item !== name)
+        players = players.filter((item) => item.name !== player.name)
         console.log(
           'Player stats error: ',
           url,
-          name,
+          player.name,
           error && error.response && error.response.body
         )
       }
@@ -66,8 +75,11 @@ require('dotenv').config()
       )[0]
     })
 
-    names.map((name, index) => {
-      battleRoyaleStats[index] = { name, ...battleRoyaleStats[index].stats }
+    players.map((player, index) => {
+      battleRoyaleStats[index] = {
+        ...player,
+        ...battleRoyaleStats[index].stats,
+      }
     })
 
     const allAveageLife = R.map(
