@@ -16,6 +16,7 @@ import {
   Text,
   Th,
   Thead,
+  theme,
   Tr,
 } from '@chakra-ui/react'
 import Head from 'next/head'
@@ -39,6 +40,7 @@ import PeopleIcon from '../components/icons/PeopleIcon'
 import LeaderBoardIcon from '../components/icons/LeaderboardIcon'
 import DonateIcon from '../components/icons/DonateIcon'
 import ChickenIcon from '../components/icons/ChickenIcon'
+import NavBar from '../components/NavBar'
 
 export default function Home() {
   const ref = useRef()
@@ -49,15 +51,7 @@ export default function Home() {
         <title>i8 - Home</title>
       </Head>
 
-      <header>
-        <Container maxW="xl" centerContent color="black">
-          <Link href="/">
-            <Box m={4} _hover={{cursor: "pointer"}}>
-              <Image src="/i8_black.png" alt="i8" width={128} height={128} />
-            </Box>
-          </Link>
-        </Container>
-      </header>
+      <NavBar />
 
       <main>
         <section role="hero">
@@ -77,18 +71,31 @@ export default function Home() {
               mb={8}
               mx="auto"
               rounded="lg"
-              shadow="xl"
-              background="#D9D9D6"
+              shadow="lg"
+              // background="#D9D9D6"
+              bgColor={theme.colors.gray[200]}
             >
               <Heading variant="h3" size="lg" textAlign="center">
                 Clan stats
               </Heading>
+
+              {/* Total players */}
               <Flex mt={2}>
                 <UserIcon height={24} width={24}></UserIcon>
                 <Text ml={2}>Players:</Text>
                 <Spacer />
                 <Text fontWeight="bold">{allStats.totalPlayers}</Text>
               </Flex>
+
+              {/* Total wins */}
+              <Flex mt={2}>
+                <ChickenIcon height={24} width={24}></ChickenIcon>
+                <Text ml={2}>Wins:</Text>
+                <Spacer />
+                <Text fontWeight="bold">{allStats.totalWins}</Text>
+              </Flex>
+
+              {/* Win ratio */}
               <Flex mt={2}>
                 <TrophyIcon height={24} width={24}></TrophyIcon>
                 <Text ml={2}>W/L ratio:</Text>
@@ -97,14 +104,8 @@ export default function Home() {
                   {Math.round(allStats.averageWinRatio * 100) / 100}%
                 </Text>
               </Flex>
-              <Flex mt={2}>
-                <TimeIcon height={24} width={24}></TimeIcon>
-                <Text ml={2}>Time alive:</Text>
-                <Spacer />
-                <Text fontWeight="bold">
-                  {Math.round(allStats.averageLife * 100) / 100} min
-                </Text>
-              </Flex>
+
+              {/* KD Ratio */}
               <Flex mt={2}>
                 <AimIcon height={24} width={24}></AimIcon>
                 <Text ml={2}>K/D ratio:</Text>
@@ -113,12 +114,14 @@ export default function Home() {
                   {Math.round(allStats.averageKdRatio * 100) / 100}
                 </Text>
               </Flex>
+
+              {/* Time Alive */}
               <Flex mt={2}>
-                <ChickenIcon height={24} width={24}></ChickenIcon>
-                <Text ml={2}>Wins:</Text>
+                <TimeIcon height={24} width={24}></TimeIcon>
+                <Text ml={2}>Time alive:</Text>
                 <Spacer />
                 <Text fontWeight="bold">
-                  {allStats.totalWins}
+                  {Math.round(allStats.averageLife * 100) / 100} min
                 </Text>
               </Flex>
             </Box>
@@ -137,8 +140,9 @@ export default function Home() {
                 <Link href="/players">
                   <Button
                     backgroundColor="#BE7F00"
-                    _hover={{ opacity: "0.6" }}
+                    _hover={{ opacity: '0.6' }}
                     size="lg"
+                    shadow="lg"
                     leftIcon={<PeopleIcon />}
                   >
                     All players
@@ -148,8 +152,9 @@ export default function Home() {
                 <Link href="/leaderboards">
                   <Button
                     backgroundColor="#BE7F00"
-                    _hover={{ opacity: "0.6" }}
+                    _hover={{ opacity: '0.6' }}
                     size="lg"
+                    shadow="lg"
                     leftIcon={<LeaderBoardIcon />}
                   >
                     Leaderboards
@@ -159,8 +164,9 @@ export default function Home() {
                 <Link href="/donate">
                   <Button
                     backgroundColor="#BE7F00"
-                    _hover={{ opacity: "0.6" }}
+                    _hover={{ opacity: '0.6' }}
                     size="lg"
+                    shadow="lg"
                     leftIcon={<DonateIcon />}
                   >
                     Donate
