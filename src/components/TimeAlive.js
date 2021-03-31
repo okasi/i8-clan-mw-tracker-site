@@ -13,7 +13,7 @@ import createRows from '../utils/createRows'
 export default function TimeAlive() {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
-    { id: 'averageLife', label: 'Average Life', minWidth: 80 },
+    { id: 'averageLife', label: 'Average Life', minWidth: 80, align: 'center' },
   ]
 
   const rows = createRows(allStats.averageLifeLeaderboard, columns)

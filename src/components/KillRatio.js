@@ -13,7 +13,7 @@ import createRows from '../utils/createRows'
 export default function KillRatio() {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
-    { id: 'kdRatio', label: 'K/D Ratio', minWidth: 80 },
+    { id: 'kdRatio', label: 'K/D Ratio', minWidth: 80, align: 'center' },
   ]
 
   const rows = createRows(allStats.kdRatioLeaderboard, columns)

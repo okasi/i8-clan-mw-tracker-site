@@ -76,6 +76,9 @@ require('dotenv').config()
     })
 
     players.map((player, index) => {
+
+      player.name = player.name.split("#")[0]
+
       battleRoyaleStats[index] = {
         ...player,
         ...battleRoyaleStats[index].stats,

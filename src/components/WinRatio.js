@@ -13,7 +13,7 @@ import createRows from '../utils/createRows'
 export default function WinRatio() {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
-    { id: 'wlRatio', label: 'W/L Ratio', minWidth: 80 },
+    { id: 'wlRatio', label: 'W/L Ratio', minWidth: 80, align: 'center' },
   ]
 
   const rows = createRows(allStats.wlRatioLeaderboard, columns)

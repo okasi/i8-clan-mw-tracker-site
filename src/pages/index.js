@@ -130,7 +130,7 @@ export default function Home() {
           <section role="navigation">
             <Center>
               <SimpleGrid
-                columns={{ sm: 1, lg: 3 }}
+                columns={{ sm: 1, lg: 2 }}
                 spacing={4}
                 my={4}
                 mx={4}

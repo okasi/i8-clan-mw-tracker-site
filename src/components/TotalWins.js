@@ -13,7 +13,7 @@ import createRows from '../utils/createRows'
 export default function TotalWins() {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
-    { id: 'wins', label: 'Wins', minWidth: 80 },
+    { id: 'wins', label: 'Wins', minWidth: 80, align: 'center' },
   ]
 
   const rows = createRows(allStats.winsLeaderboard, columns)

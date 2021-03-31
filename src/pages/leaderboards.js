@@ -20,6 +20,7 @@ import {
 import TotalWins from '../components/TotalWins'
 import ChickenIcon from '../components/icons/ChickenIcon'
 import NavBar from '../components/NavBar'
+import { Button } from '@chakra-ui/button'
 
 export default function Leaderboard() {
   return (
@@ -41,57 +42,61 @@ export default function Leaderboard() {
         </section>
 
         <section role="leaderboards">
-          {/* <SimpleGrid columns={{ sm: 1, xl: 3 }} spacing={8} my={8} mx={8}> */}
-          <Wrap spacing={16} my={8} justify="center">
-            <WrapItem>
-              <Box>
-                <Flex align="center">
-                  <WolfIcon></WolfIcon>
-                  <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                    Win ratio
-                  </Heading>
-                </Flex>
-                <WinRatio></WinRatio>
-              </Box>
-            </WrapItem>
+          <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing={6} my={8} mx={8} color="white" maxW="5xl" margin="auto">
 
-            <WrapItem>
-              <Box>
-                <Flex align="center">
-                  <TurtleIcon></TurtleIcon>
-                  <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                    Time alive
-                  </Heading>
-                </Flex>
-                <TimeAlive></TimeAlive>
-              </Box>
-            </WrapItem>
+            <Link href="/totalwins">
+              <Button
+                backgroundColor="#BE7F00"
+                _hover={{ opacity: '0.6' }}
+                size="lg"
+                shadow="lg"
+                leftIcon={<ChickenIcon />}
+                m={4}
+              >
+                Total Wins
+              </Button>
+            </Link>
 
-            <WrapItem>
-              <Box>
-                <Flex align="center">
-                  <LionIcon></LionIcon>
-                  <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                    Kill ratio
-                  </Heading>
-                </Flex>
-                <KillRatio></KillRatio>
-              </Box>
-            </WrapItem>
+            <Link href="/winratio">
+              <Button
+                backgroundColor="#BE7F00"
+                _hover={{ opacity: '0.6' }}
+                size="lg"
+                shadow="lg"
+                leftIcon={<WolfIcon />}
+                m={4}
+              >
+                Win Ratio
+              </Button>
+            </Link>
 
-            <WrapItem>
-              <Box>
-                <Flex align="center">
-                  <ChickenIcon></ChickenIcon>
-                  <Heading as="h3" size="lg" fontWeight="bold" ml="4">
-                    Total wins
-                  </Heading>
-                </Flex>
-                <TotalWins></TotalWins>
-              </Box>
-            </WrapItem>
-          </Wrap>
-          {/* </SimpleGrid> */}
+            <Link href="/killratio">
+              <Button
+                backgroundColor="#BE7F00"
+                _hover={{ opacity: '0.6' }}
+                size="lg"
+                shadow="lg"
+                leftIcon={<LionIcon />}
+                m={4}
+              >
+                Kill Ratio
+              </Button>
+            </Link>
+
+            <Link href="/timealive">
+              <Button
+                backgroundColor="#BE7F00"
+                _hover={{ opacity: '0.6' }}
+                size="lg"
+                shadow="lg"
+                leftIcon={<TurtleIcon />}
+                m={4}
+              >
+                Time Alive
+              </Button>
+            </Link>
+ 
+          </SimpleGrid>
         </section>
       </main>
     </>
