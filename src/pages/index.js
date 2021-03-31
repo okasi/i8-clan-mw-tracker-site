@@ -160,18 +160,6 @@ export default function Home() {
                     Leaderboards
                   </Button>
                 </Link>
-
-                <Link href="/donate">
-                  <Button
-                    backgroundColor="#BE7F00"
-                    _hover={{ opacity: '0.6' }}
-                    size="lg"
-                    shadow="lg"
-                    leftIcon={<DonateIcon />}
-                  >
-                    Donate
-                  </Button>
-                </Link>
               </SimpleGrid>
             </Center>
           </section>
