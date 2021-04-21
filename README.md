@@ -1,8 +1,8 @@
-What?
+## What?  
 Leaderboard website for a COD Warzone clan
 
-Why?
+## Why?  
 Fun & social
 
-How?
+## How?  
 Airtable, Tracker.gg, NextJS
