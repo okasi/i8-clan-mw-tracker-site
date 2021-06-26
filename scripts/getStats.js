@@ -179,7 +179,7 @@ require('dotenv').config()
     console.log('allStats', allStats)
 
     return await fs.writeFileSync(
-      './data/allStats.json',
+      './src/data/allStats.json',
       JSON.stringify(allStats),
       function (err, data) {
         if (err) {

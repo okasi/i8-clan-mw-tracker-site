@@ -5,12 +5,12 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow
 } from '@material-ui/core'
-import { default as allStats } from '../../data/allStats.json'
+import { default as allStats } from '../data/allStats.json'
 import createRows from '../utils/createRows'
 
-export default function AllPlayers() {
+export default function AllPlayers () {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
     { id: 'kdRatio', label: 'K/D Ratio', minWidth: 80 },
@@ -27,7 +27,7 @@ export default function AllPlayers() {
     { id: 'scorePerGame', label: 'Score Per Game', minWidth: 80 },
     { id: 'score', label: 'Score', minWidth: 80 },
     { id: 'timePlayed', label: 'Time Played', minWidth: 80 },
-    { id: 'gamesPlayed', label: 'Games Played', minWidth: 80 },
+    { id: 'gamesPlayed', label: 'Games Played', minWidth: 80 }
   ]
 
   const rows = createRows(allStats.players, columns)
@@ -51,7 +51,7 @@ export default function AllPlayers() {
         <TableBody>
           {rows.map((row) => {
             return (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+              <TableRow hover role='checkbox' tabIndex={-1} key={row.code}>
                 {columns.map((column) => {
                   const value = row[column.id]
                   return (

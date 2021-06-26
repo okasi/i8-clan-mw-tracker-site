@@ -5,15 +5,15 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow
 } from '@material-ui/core'
-import { default as allStats } from '../../data/allStats.json'
+import { default as allStats } from '../data/allStats.json'
 import createRows from '../utils/createRows'
 
-export default function WinRatio() {
+export default function WinRatio () {
   const columns = [
     { id: 'name', label: 'Name', minWidth: 200 },
-    { id: 'wlRatio', label: 'W/L Ratio', minWidth: 80, align: 'center' },
+    { id: 'wlRatio', label: 'W/L Ratio', minWidth: 80, align: 'center' }
   ]
 
   const rows = createRows(allStats.wlRatioLeaderboard, columns)
@@ -37,7 +37,7 @@ export default function WinRatio() {
         <TableBody>
           {rows.map((row) => {
             return (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+              <TableRow hover role='checkbox' tabIndex={-1} key={row.code}>
                 {columns.map((column) => {
                   const value = row[column.id]
                   return (

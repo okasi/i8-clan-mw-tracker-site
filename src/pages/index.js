@@ -17,7 +17,7 @@ import {
   Th,
   Thead,
   theme,
-  Tr,
+  Tr
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRef, useState } from 'react'
@@ -27,7 +27,7 @@ import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { default as allStats } from '../../data/allStats.json'
+import { default as allStats } from '../data/allStats.json'
 import AllPlayers from '../components/AllPlayers'
 import KillRatio from '../components/KillRatio'
 import TimeAlive from '../components/TimeAlive'
@@ -42,7 +42,7 @@ import DonateIcon from '../components/icons/DonateIcon'
 import ChickenIcon from '../components/icons/ChickenIcon'
 import NavBar from '../components/NavBar'
 
-export default function Home() {
+export default function Home () {
   const ref = useRef()
 
   return (
@@ -54,107 +54,107 @@ export default function Home() {
       <NavBar />
 
       <main>
-        <section role="hero">
-          <Container maxW="xl" centerContent color="black">
-            <Box textAlign="center">
-              <Heading variant="h1">i8 Clan</Heading>
-              <Heading variant="h2">Pure Toxic Gamers</Heading>
+        <section role='hero'>
+          <Container maxW='xl' centerContent color='black'>
+            <Box textAlign='center'>
+              <Heading variant='h1'>i8 Clan</Heading>
+              <Heading variant='h2'>Pure Toxic Gamers</Heading>
             </Box>
           </Container>
         </section>
         <article>
-          <section role="summary">
+          <section role='summary'>
             <Box
-              w="256px"
+              w='256px'
               p={4}
               mt={6}
               mb={8}
-              mx="auto"
-              rounded="lg"
-              shadow="lg"
+              mx='auto'
+              rounded='lg'
+              shadow='lg'
               // background="#D9D9D6"
               bgColor={theme.colors.gray[200]}
             >
-              <Heading variant="h3" size="lg" textAlign="center">
+              <Heading variant='h3' size='lg' textAlign='center'>
                 Clan stats
               </Heading>
 
               {/* Total players */}
               <Flex mt={2}>
-                <UserIcon height={24} width={24}></UserIcon>
+                <UserIcon height={24} width={24} />
                 <Text ml={2}>Players:</Text>
                 <Spacer />
-                <Text fontWeight="bold">{allStats.totalPlayers}</Text>
+                <Text fontWeight='bold'>{allStats.totalPlayers}</Text>
               </Flex>
 
               {/* Total wins */}
               <Flex mt={2}>
-                <ChickenIcon height={24} width={24}></ChickenIcon>
+                <ChickenIcon height={24} width={24} />
                 <Text ml={2}>Wins:</Text>
                 <Spacer />
-                <Text fontWeight="bold">{allStats.totalWins}</Text>
+                <Text fontWeight='bold'>{allStats.totalWins}</Text>
               </Flex>
 
               {/* Win ratio */}
               <Flex mt={2}>
-                <TrophyIcon height={24} width={24}></TrophyIcon>
+                <TrophyIcon height={24} width={24} />
                 <Text ml={2}>W/L ratio:</Text>
                 <Spacer />
-                <Text fontWeight="bold">
+                <Text fontWeight='bold'>
                   {Math.round(allStats.averageWinRatio * 100) / 100}%
                 </Text>
               </Flex>
 
               {/* KD Ratio */}
               <Flex mt={2}>
-                <AimIcon height={24} width={24}></AimIcon>
+                <AimIcon height={24} width={24} />
                 <Text ml={2}>K/D ratio:</Text>
                 <Spacer />
-                <Text fontWeight="bold">
+                <Text fontWeight='bold'>
                   {Math.round(allStats.averageKdRatio * 100) / 100}
                 </Text>
               </Flex>
 
               {/* Time Alive */}
               <Flex mt={2}>
-                <TimeIcon height={24} width={24}></TimeIcon>
+                <TimeIcon height={24} width={24} />
                 <Text ml={2}>Time alive:</Text>
                 <Spacer />
-                <Text fontWeight="bold">
+                <Text fontWeight='bold'>
                   {Math.round(allStats.averageLife * 100) / 100} min
                 </Text>
               </Flex>
             </Box>
           </section>
 
-          <section role="navigation">
+          <section role='navigation'>
             <Center>
               <SimpleGrid
                 columns={{ sm: 1, lg: 2 }}
                 spacing={4}
                 my={4}
                 mx={4}
-                maxW="640px"
-                color="white"
+                maxW='640px'
+                color='white'
               >
-                <Link href="/players">
+                <Link href='/players'>
                   <Button
-                    backgroundColor="#BE7F00"
+                    backgroundColor='#BE7F00'
                     _hover={{ opacity: '0.6' }}
-                    size="lg"
-                    shadow="lg"
+                    size='lg'
+                    shadow='lg'
                     leftIcon={<PeopleIcon />}
                   >
                     All players
                   </Button>
                 </Link>
 
-                <Link href="/leaderboards">
+                <Link href='/leaderboards'>
                   <Button
-                    backgroundColor="#BE7F00"
+                    backgroundColor='#BE7F00'
                     _hover={{ opacity: '0.6' }}
-                    size="lg"
-                    shadow="lg"
+                    size='lg'
+                    shadow='lg'
                     leftIcon={<LeaderBoardIcon />}
                   >
                     Leaderboards
@@ -166,7 +166,7 @@ export default function Home() {
         </article>
       </main>
       <footer>
-        <Container maxW="xl" centerContent color="black">
+        <Container maxW='xl' centerContent color='black'>
           <i>Last updated: {new Date(allStats.lastUpdated).toLocaleString()}</i>
         </Container>
       </footer>
