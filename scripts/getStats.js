@@ -1,3 +1,4 @@
+const path = require('path')
 const fs = require('fs')
 const got = require('got')
 const R = require('ramda')
@@ -179,7 +180,7 @@ require('dotenv').config()
     console.log('allStats', allStats)
 
     return await fs.writeFileSync(
-      './src/data/allStats.json',
+      path.resolve(__dirname, '../src/data/allStats.json'),
       JSON.stringify(allStats),
       function (err, data) {
         if (err) {
