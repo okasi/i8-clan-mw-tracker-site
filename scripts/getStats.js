@@ -178,7 +178,7 @@ require('dotenv').config()
 
     console.log('allStats', allStats)
 
-    return fs.writeFile(
+    return fs.writeFileSync(
       './data/allStats.json',
       JSON.stringify(allStats),
       function (err, data) {
