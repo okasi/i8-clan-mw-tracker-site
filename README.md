@@ -7,4 +7,3 @@ Fun & social
 ## How?  
 Airtable, Tracker.gg, NextJS
 
-1
