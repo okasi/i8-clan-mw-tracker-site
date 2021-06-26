@@ -30,16 +30,16 @@ require('dotenv').config()
     await base('Table 1')
       .select({
         view: 'Grid view',
-        fields: ['Name', 'Platform', 'Country', 'Play Style'],
+        fields: ['Name', 'Platform', 'Country', 'Play Style']
       })
       .all()
       .then((records) => {
         records.map((record) => {
           players.push({
-            name: record.fields['Name'],
-            platform: record.fields['Platform'],
-            country: record.fields['Country'],
-            playStyle: record.fields['Play Style'],
+            name: record.fields.Name,
+            platform: record.fields.Platform,
+            country: record.fields.Country,
+            playStyle: record.fields['Play Style']
           })
         })
       })
@@ -57,7 +57,7 @@ require('dotenv').config()
       } catch (error) {
         players = players.filter((item) => item.name !== player.name)
         console.log(
-          'Player stats error: ',
+          'Player stats e: ',
           url,
           player.name,
           error && error.response && error.response.body
@@ -76,12 +76,11 @@ require('dotenv').config()
     })
 
     players.map((player, index) => {
-
-      player.name = player.name.split("#")[0]
+      player.name = player.name.split('#')[0]
 
       battleRoyaleStats[index] = {
         ...player,
-        ...battleRoyaleStats[index].stats,
+        ...battleRoyaleStats[index].stats
       }
     })
 
@@ -174,7 +173,7 @@ require('dotenv').config()
       averageLifeLeaderboard: sortedByAverageLife,
       kdRatioLeaderboard: sortedByKdRatio,
       winsLeaderboard: sortedByWins,
-      lastUpdated: new Date(),
+      lastUpdated: new Date()
     }
 
     console.log('allStats', allStats)
